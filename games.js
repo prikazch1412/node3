@@ -121,11 +121,15 @@ var fullArr2 = [];
         
     }
     
-    fullArr2.sort(function(a, b) {
-    
-            return a[1] == b[1] ? a < b : a[1] < b[1]
-        
-        });
+   function compareSecondColumn(a, b) {
+        if (a[1] === b[1]) {
+            return 0;
+        }
+        else {
+            return (a[1] > b[1]) ? -1 : 1;
+        }
+    }
+    fullArr2.sort(compareSecondColumn);
         
       //  console.log(fullArr2);
 
