@@ -28,7 +28,6 @@ function unique(arr1) {
             
         }
 
-var arr2 =[];
     for(let i in ArrayC) {
         if(arr2.indexOf(ArrayC[i][0])==-1)arr2.push(ArrayC[i][0],ArrayC[i][1]);
     }
@@ -44,9 +43,8 @@ var arr2 =[];
     }
     
     }
-    //console.log(first.length, second.length);
      
-        db.serialize(function() {
+    db.serialize(function() {
             var stmt = db.prepare("insert into teams values(null,?,?)");
             for (let i=0; i<first.length; i++) { 
                 fullArr[i] = Array.of (first[i], second[i]); 
@@ -54,11 +52,10 @@ var arr2 =[];
             stmt.run(fullArr[i][1],fullArr[i][0]);
             
             }
-                    stmt.finalize();
-                });
-                db.each("select * from teams",function(err,row) {
-                  console.log(row.name, row.noc_name);
-              });
-              db.close();
-            
-            }
+          stmt.finalize();
+          });
+          db.each("select * from teams",function(err,row) {
+             console.log(row.name, row.noc_name);
+          });
+     db.close();
+}
