@@ -1,0 +1,22 @@
+{
+  "name": "Node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "array-sort": "^1.0.0",
+    "csv-parse": "^4.0.1",
+    "csv-split-stream": "^1.0.2",
+    "csv-to-array": "^1.0.2",
+    "express": "^4.16.4",
+    "fast-csv": "^2.4.1",
+    "sqlite3": "^4.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
