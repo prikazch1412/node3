@@ -15,24 +15,54 @@ fast_csv.fromPath("athlete.csv").on("data", function(data){
 });
 
 function data(arr) {
+    var age_heigh_weig = [];
+    var str2 =[];
+    var arr3 = [];
+    var id = [];
+    var noc_name = [];
+    var str3 = [];
+    
     db.serialize(function() {
         var stmt = db.prepare("insert into athletes values(null,?,?,?,?,?)");
-        for(var i = 0; i < arr.length; i++) {
-            if(arr[i][4] == 'NA' && arr[i][5] == 'NA') {
-                var hw = {};
-            } else if (arr[i][4] == 'NA') {
-                var hw = {weight: arr[i][5]};
-            } else if (arr[i][5] == 'NA') {
-                var hw = {height: arr[i][4]};
-            } else {
-                var hw = {height: arr[i][4], weight: arr[i][5]};
-            }
-            stmt.run(arr[i][1].replace(/(\['"]|\(.*?\)) */g, ''), arr[i][2], arr[i][2], JSON.stringify(hw), arr[i][5]);
+        db.each("select * from teams",function(err,row) {
+        
+           
+            id.push(row.id);
+            noc_name.push(row.noc_name);
+           //console.log(row.id);
+    for (let i=0; i<id.length;i++){
+        arr3[i] = Array.of (id[i], noc_name[i]);
+    //console.log(arr3[i][0]);
+    }
+    for (let i=0; i<arr.length; i++){
+        age_heigh_weig[i] = arr[i][3].substring(1, arr[i][3].length-1);
+        for (let i=0;i<age_heigh_weig.length;i++){
+            str2[i] = age_heigh_weig[i].split(',');
+          // console.log(str2[i])
         }
-        stmt.finalize();
-    });
-    db.each("select * from athletes",function(err,row) {
-        console.log(row.full_name);
+        for(let i = 0; i < str2.length; i++) {
+            if(str2[i][1] == 'NA' && str2[i][2] == 'NA') {
+                var hw = {};
+            } else if (str2[i][1] == 'NA') {
+                var hw = {weight: str2[i][2]};
+            } else if (str2[i][2] == 'NA') {
+                var hw = {height: str2[i][1]};
+            } else {
+                var hw = {height: str2[i][1], weight: str2[i][2]};
+            }     
+        }
+        for (let j=0; j<arr3.length; j++) { 
+        if (arr[i][5] == arr3[j][1]){ 
+            console.log(arr[i][1], arr[i][2], str2[i][0], JSON.stringify(hw), arr3[j][0]);
+             
+                }
+        }
+    }
+        });
+        
+        
+
+    stmt.finalize();                 
     });
     db.close();
 }
